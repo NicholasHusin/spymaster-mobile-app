@@ -12,7 +12,7 @@ export default class setting extends Component {
     words: [],
     labels: [],
   }
-  
+
   add = () => {
     if (this.state.text !== '') {
       this.state.words.push(this.state.text)
@@ -28,9 +28,9 @@ export default class setting extends Component {
   hint = () => {
     console.log(JSON.stringify(this.state.words))
     console.log(JSON.stringify(this.state.labels))
-    this.state.words = []
-    this.state.labels = []
-    this.forceUpdate()
+    // this.state.words = []
+    // this.state.labels = []
+    // this.forceUpdate()
     Alert.alert(
       'Generate Clue For:',
       '',
@@ -44,7 +44,8 @@ export default class setting extends Component {
   }
 
   connect(teamName) {
-    fetch('http://10.195.23.233:5000', {
+    console.log(teamName)
+    fetch('http://10.195.23.233:5000/clue', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -55,9 +56,13 @@ export default class setting extends Component {
         words: this.state.words,
         labels: this.state.labels
       }),
+    }).then((response) => response.json()).then((responseJSON) => {
+      console.log(responseJSON)
+      Alert.alert(
+        responseJSON.clue + " (Rating: " + responseJSON.rating.toFixed(2) + ")",
+        "This clue hints at:\n" + responseJSON.wordsHintedAt.join('\n')
+      )
     })
-      .then(response => response.json())
-      .then(json => console.log(json))
   }
 
   labelChange(index) {
@@ -117,7 +122,8 @@ export default class setting extends Component {
           height: 40, flexDirection: 'column',
           backgroundColor: '#393D46', paddingLeft: 10
         }}>
-          <TextInput style={{ color: 'white' }}
+          <TextInput
+            style={{ color: 'white' }}
             ref={text => { this.textInput = text }}
             placeholder="Type Your Word Here!"
             onChangeText={(text) => this.setState({ text })}
