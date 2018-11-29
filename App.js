@@ -10,6 +10,7 @@ import connect from './apiConnection.js';
 export default class setting extends Component {
 
   state = {
+    gameStarted: false,
     text: '',
     words: ['thief', 'nail', 'boot', 'staff', 'root', 'water', 'teacher',
       'knife', 'suit', 'snowman', 'pupil', 'ham', 'gold', 'death',
@@ -30,7 +31,12 @@ export default class setting extends Component {
     this.forceUpdate()
   }
 
-
+  startGame = () => {
+    this.setState({
+      gameStarted: true
+    })
+    console.log(this.state)
+  }
   hint = () => {
     console.log(JSON.stringify(this.state.words))
     console.log(JSON.stringify(this.state.labels))
@@ -56,8 +62,6 @@ export default class setting extends Component {
       { cancelable: false }
     )
   }
-
-
 
   labelChange(index) {
     labelList = ['N', 'B', 'R', 'A']
@@ -132,7 +136,7 @@ export default class setting extends Component {
         }}>
           <View style={styles.buttonContainer}>
             <Button
-              title='Add Word'
+              title={this.state.gameStarted ? 'Get Hint' : 'Add Word'}
               color='#585858'
               onPress={this.add}
             />
@@ -140,9 +144,9 @@ export default class setting extends Component {
 
           <View style={styles.buttonContainer}>
             <Button
-              title='Get Hint'
+              title={this.state.gameStarted ? 'End Game' : 'Start Game'}
               color='#585858'
-              onPress={this.hint}
+              onPress={this.state.gameStarted ? this.hint : this.startGame}
             />
           </View>
 
