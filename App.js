@@ -9,8 +9,9 @@ export default class setting extends Component {
 
   state = {
     text: '',
-    words: [],
-    labels: [],
+    words: ['thief', 'nail', 'boot', 'staff', 'root', 'water', 'teacher', 'knife', 'suit', 'snowman', 'pupil', 'ham', 'gold', 'death',
+            'dinosaur', 'ground', 'button', 'stream', 'train', 'satellite', 'cold', 'capital', 'boom', 'jet', 'face'],
+    labels: ['R', 'B', 'N', 'N', 'B', 'B', 'N', 'R', 'R', 'B', 'R', 'R', 'B', 'R', 'B', 'N', 'B', 'N', 'R', 'A', 'R', 'B', 'N', 'N', 'B',],
   }
 
   add = () => {
@@ -58,9 +59,10 @@ export default class setting extends Component {
       }),
     }).then((response) => response.json()).then((responseJSON) => {
       console.log(responseJSON)
-      Alert.alert(
-        responseJSON.clue + " (Rating: " + responseJSON.rating.toFixed(2) + ")",
-        "This clue hints at:\n" + responseJSON.wordsHintedAt.join('\n')
+      Alert.alert('',
+        JSON.stringify(responseJSON)
+        // responseJSON.clue + " (Rating: " + responseJSON.rating.toFixed(2) + ")",
+        // "This clue hints at:\n" + responseJSON.wordsHintedAt.join('\n')
       )
     })
   }
