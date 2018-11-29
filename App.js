@@ -4,14 +4,19 @@ import {
   TextInput, Image, ImageBackground, ScrollView
 } from 'react-native';
 import { KeyboardAvoidingView } from 'react-native';
+import { styles } from './styles.js';
+import connect from './apiConnection.js';
 
 export default class setting extends Component {
 
   state = {
     text: '',
-    words: ['thief', 'nail', 'boot', 'staff', 'root', 'water', 'teacher', 'knife', 'suit', 'snowman', 'pupil', 'ham', 'gold', 'death',
-            'dinosaur', 'ground', 'button', 'stream', 'train', 'satellite', 'cold', 'capital', 'boom', 'jet', 'face'],
-    labels: ['R', 'B', 'N', 'N', 'B', 'B', 'N', 'R', 'R', 'B', 'R', 'R', 'B', 'R', 'B', 'N', 'B', 'N', 'R', 'A', 'R', 'B', 'N', 'N', 'B',],
+    words: ['thief', 'nail', 'boot', 'staff', 'root', 'water', 'teacher',
+      'knife', 'suit', 'snowman', 'pupil', 'ham', 'gold', 'death',
+      'dinosaur', 'ground', 'button', 'stream', 'train', 'satellite',
+      'cold', 'capital', 'boom', 'jet', 'face'],
+    labels: ['R', 'B', 'N', 'N', 'B', 'B', 'N', 'R', 'R', 'B', 'R', 'R',
+      'B', 'R', 'B', 'N', 'B', 'N', 'R', 'A', 'R', 'B', 'N', 'N', 'B',],
   }
 
   add = () => {
@@ -33,39 +38,26 @@ export default class setting extends Component {
     // this.state.labels = []
     // this.forceUpdate()
     Alert.alert(
-      'Generate Clue For:',
+      'Which team do you want to generate a clue for?',
       '',
       [
         { text: 'Cancel', onPress: () => console.log('Ask me later pressed'), style: 'cancel' },
-        { text: 'Blue Team', onPress: () => { this.connect("blue") } },
-        { text: 'Red Team', onPress: () => { this.connect("red") } },
+        {
+          text: 'Blue Team', onPress: () => {
+            connect(this.state.words, this.state.labels, "blue")
+          }
+        },
+        {
+          text: 'Red Team', onPress: () => {
+            connect(this.state.words, this.state.labels, "red")
+          }
+        },
       ],
       { cancelable: false }
     )
   }
 
-  connect(teamName) {
-    console.log(teamName)
-    fetch('http://10.195.23.233:5000/clue', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        team: teamName,
-        words: this.state.words,
-        labels: this.state.labels
-      }),
-    }).then((response) => response.json()).then((responseJSON) => {
-      console.log(responseJSON)
-      Alert.alert('',
-        JSON.stringify(responseJSON)
-        // responseJSON.clue + " (Rating: " + responseJSON.rating.toFixed(2) + ")",
-        // "This clue hints at:\n" + responseJSON.wordsHintedAt.join('\n')
-      )
-    })
-  }
+
 
   labelChange(index) {
     labelList = ['N', 'B', 'R', 'A']
@@ -160,80 +152,3 @@ export default class setting extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  buttonContainer: {
-    flex: 1,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-
-  MainContainer: {
-    flex: 1,
-    margin: 10
-  },
-
-  Blue: {
-    fontFamily: 'monospace',
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    backgroundColor: '#1E90FF',
-    color: 'white',
-    borderRadius: 20,
-    borderColor: '#393D46',
-    borderWidth: 1,
-    padding: 3,
-    marginTop: 7,
-    marginRight: 15,
-    marginLeft: 15
-  },
-
-  Red: {
-    fontFamily: 'monospace',
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    backgroundColor: '#B22222',
-    color: 'white',
-    borderRadius: 20,
-    borderColor: '#393D46',
-    borderWidth: 1,
-    padding: 3,
-    marginTop: 7,
-    marginRight: 15,
-    marginLeft: 15
-  },
-
-  Assassin: {
-    fontFamily: 'monospace',
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    backgroundColor: '#585858',
-    color: 'white',
-    borderRadius: 20,
-    borderColor: '#393D46',
-    borderWidth: 1,
-    padding: 3,
-    marginTop: 7,
-    marginRight: 15,
-    marginLeft: 15
-  },
-
-  Neutral: {
-    fontFamily: 'monospace',
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    backgroundColor: '#cdb79e',
-    color: 'white',
-    borderRadius: 20,
-    borderColor: '#393D46',
-    borderWidth: 1,
-    padding: 3,
-    marginTop: 7,
-    marginRight: 15,
-    marginLeft: 15
-  }
-});
