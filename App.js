@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, AppRegistry, Button, View, StyleSheet, Text, TextInput, Image, ScrollView} from 'react-native';
+import { Alert, AppRegistry, Button, View, StyleSheet, Text, TextInput, Image, ImageBackground, ScrollView} from 'react-native';
 import { KeyboardAvoidingView } from 'react-native';
 
 export default class setting extends Component {
@@ -30,10 +30,19 @@ export default class setting extends Component {
     this.words = []
     this.labels = []
     this.forceUpdate()
-    Alert.alert('API Was Called')
+    Alert.alert(
+      'Generate Clue For:',
+      '',
+      [
+        {text: 'Cancel', onPress: () => console.log('Ask me later pressed'), style: 'cancel'},
+        {text: 'Blue Team', onPress: () => {this.connect("blue")}},
+        {text: 'Red Team', onPress: () => {this.connect("red")}},
+      ],
+      { cancelable: false }
+    )
   }
 
-  connect() {
+  connect(teamName) {
     fetch('http://10.195.23.233:5000', {
       method: 'POST',
       headers: {
@@ -41,6 +50,7 @@ export default class setting extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+        team: teamName,
         words: this.words,
         labels: this.labels
       }),
@@ -158,6 +168,8 @@ const styles = StyleSheet.create({
       backgroundColor: '#1E90FF',
       color: 'white',
       borderRadius: 20,
+      borderColor: '#393D46',
+      borderWidth: 1,
       padding: 3,
       marginTop: 7,
       marginRight: 15,
@@ -172,6 +184,8 @@ const styles = StyleSheet.create({
       backgroundColor: '#B22222',
       color: 'white',
       borderRadius: 20,
+      borderColor: '#393D46',
+      borderWidth: 1,
       padding: 3,
       marginTop: 7,
       marginRight: 15,
@@ -186,6 +200,8 @@ const styles = StyleSheet.create({
       backgroundColor: '#585858',
       color: 'white',
       borderRadius: 20,
+      borderColor: '#393D46',
+      borderWidth: 1,
       padding: 3,
       marginTop: 7,
       marginRight: 15,
@@ -200,6 +216,8 @@ const styles = StyleSheet.create({
       backgroundColor: '#cdb79e',
       color: 'white',
       borderRadius: 20,
+      borderColor: '#393D46',
+      borderWidth: 1,
       padding: 3,
       marginTop: 7,
       marginRight: 15,
