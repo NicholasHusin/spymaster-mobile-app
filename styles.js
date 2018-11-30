@@ -1,5 +1,11 @@
 import { StyleSheet } from 'react-native'
 
+export function addStrikethrough(style) {
+    strikethroughStyle = Object.assign({}, style)
+    strikethroughStyle.textDecorationLine = 'line-through'
+    return strikethroughStyle
+}
+
 export const styles = StyleSheet.create({
     buttonContainer: {
         flex: 1,

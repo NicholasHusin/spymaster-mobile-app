@@ -4,7 +4,7 @@ import {
   TextInput, Image, ImageBackground, ScrollView
 } from 'react-native';
 import { KeyboardAvoidingView } from 'react-native';
-import { styles } from './styles.js';
+import { addStrikethrough, styles } from './styles.js';
 import connect from './apiConnection.js';
 
 export default class setting extends Component {
@@ -18,6 +18,7 @@ export default class setting extends Component {
       'cold', 'capital', 'boom', 'jet', 'face'],
     labels: ['R', 'B', 'N', 'N', 'B', 'B', 'N', 'R', 'R', 'B', 'R', 'R',
       'B', 'R', 'B', 'N', 'B', 'N', 'R', 'A', 'R', 'B', 'N', 'N', 'B',],
+    stillOnBoard: Array(25).fill(true)
   }
 
   add = () => {
@@ -35,8 +36,18 @@ export default class setting extends Component {
     this.setState({
       gameStarted: true
     })
-    console.log(this.state)
   }
+
+  endGame = () => {
+    this.setState({
+      gameStarted: false,
+      text: '',
+      words: [],
+      labels: [],
+      stillOnBoard: [],
+    })
+  }
+
   hint = () => {
     console.log(JSON.stringify(this.state.words))
     console.log(JSON.stringify(this.state.labels))
@@ -47,7 +58,9 @@ export default class setting extends Component {
       'Which team do you want to generate a clue for?',
       '',
       [
-        { text: 'Cancel', onPress: () => console.log('Ask me later pressed'), style: 'cancel' },
+        {
+          text: 'Cancel', onPress: () => console.log('Ask me later pressed'), style: 'cancel'
+        },
         {
           text: 'Blue Team', onPress: () => {
             connect(this.state.words, this.state.labels, "blue")
@@ -67,6 +80,14 @@ export default class setting extends Component {
     labelList = ['N', 'B', 'R', 'A']
     this.state.labels[index] = labelList[(labelList.indexOf(this.state.labels[index]) + 1) % 4]
     this.forceUpdate()
+  }
+
+  crossOutWord(index) {
+    modified = this.state.stillOnBoard.slice()
+    modified[index] = !modified[index]
+    this.setState({
+      stillOnBoard: modified
+    })
   }
 
   wordBackground(index) {
@@ -108,12 +129,17 @@ export default class setting extends Component {
             this.scrollView.scrollToEnd({ animated: true });
           }}>
           {this.state.words.map((item, key) => (
-            <Text key={key} onPress={() => { this.labelChange(key) }}
-              style={this.wordBackground(key)}>
-              {key + 1 + ". " + item}
+            <Text
+              key={key}
+              onPress={() => { this.state.gameStarted ? this.crossOutWord(key) : this.labelChange(key) }}
+              style={this.state.stillOnBoard[key] ?
+                this.wordBackground(key) : addStrikethrough(this.wordBackground(key))
+              }
+            > {(key + 1) + ". " + item + " "}
+              {/* Extra space to make strikethrough look better */}
             </Text>)
           )}
-          <View style={{ height: 10 }}/>
+          <View style={{ height: 10 }} />
           {/* This adds padding to the bottom of the list */}
         </ScrollView>
 
@@ -141,7 +167,7 @@ export default class setting extends Component {
             <Button
               title={this.state.gameStarted ? 'Get Hint' : 'Add Word'}
               color='#585858'
-              onPress={this.add}
+              onPress={this.state.gameStarted ? this.hint : this.add}
             />
           </View>
 
@@ -149,7 +175,7 @@ export default class setting extends Component {
             <Button
               title={this.state.gameStarted ? 'End Game' : 'Start Game'}
               color='#585858'
-              onPress={this.state.gameStarted ? this.hint : this.startGame}
+              onPress={this.state.gameStarted ? this.endGame : this.startGame}
             />
           </View>
 
