@@ -113,25 +113,28 @@ export default class setting extends Component {
               {key + 1 + ". " + item}
             </Text>)
           )}
+          <View style={{ height: 10 }}/>
+          {/* This adds padding to the bottom of the list */}
         </ScrollView>
 
-        {/* Text Input Field */}
-        <View style={{
-          height: 40, flexDirection: 'column',
-          backgroundColor: '#393D46', paddingLeft: 10
-        }}>
-          <TextInput
-            style={{ color: 'white' }}
-            ref={text => { this.textInput = text }}
-            placeholder="Type Your Word Here!"
-            onChangeText={(text) => this.setState({ text })}
-          />
-        </View>
-
+        {/* Text Input Field, this is a javascript hack for conditional display */}
+        {!this.state.gameStarted &&
+          <View style={{
+            height: 40, flexDirection: 'column',
+            backgroundColor: '#393D46', paddingLeft: 10, paddingTop: 10
+          }}>
+            <TextInput
+              style={{ color: 'white' }}
+              ref={text => { this.textInput = text }}
+              placeholder="Type Your Word Here!"
+              onChangeText={(text) => this.setState({ text })}
+            />
+          </View>
+        }
 
         {/* Button */}
         <View style={{
-          height: 50, flexDirection: 'row',
+          height: 55, flexDirection: 'row', paddingTop: 10, paddingBottom: 10,
           justifyContent: 'center', backgroundColor: '#393D46'
         }}>
           <View style={styles.buttonContainer}>
