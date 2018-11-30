@@ -23,13 +23,13 @@ export default class setting extends Component {
 
   add = () => {
     if (this.state.text !== '') {
-      this.state.words.push(this.state.text)
-      this.state.labels.push("N")
+      this.setState((prevState) => ({
+        text: '',
+        words: prevState.words.concat([prevState.text]),
+        labels: prevState.labels.concat(['N']),
+        stillOnBoard: prevState.stillOnBoard.concat(true),
+      }))
     }
-    this.state.text = ""
-    this.textInput.clear()
-
-    this.forceUpdate()
   }
 
   startGame = () => {
@@ -51,9 +51,6 @@ export default class setting extends Component {
   hint = () => {
     console.log(JSON.stringify(this.state.words))
     console.log(JSON.stringify(this.state.labels))
-    // this.state.words = []
-    // this.state.labels = []
-    // this.forceUpdate()
     Alert.alert(
       'Which team do you want to generate a clue for?',
       '',
@@ -77,9 +74,12 @@ export default class setting extends Component {
   }
 
   labelChange(index) {
-    labelList = ['N', 'B', 'R', 'A']
-    this.state.labels[index] = labelList[(labelList.indexOf(this.state.labels[index]) + 1) % 4]
-    this.forceUpdate()
+    const labelList = ['N', 'B', 'R', 'A']
+    modified = this.state.labels.slice()
+    modified[index] = labelList[(labelList.indexOf(modified[index]) + 1) % 4]
+    this.setState({
+      labels: modified
+    })
   }
 
   crossOutWord(index) {
@@ -151,9 +151,9 @@ export default class setting extends Component {
           }}>
             <TextInput
               style={{ color: 'white' }}
-              ref={text => { this.textInput = text }}
               placeholder="Type Your Word Here!"
-              onChangeText={(text) => this.setState({ text })}
+              onChangeText={(text) => this.setState({text})}
+              value={this.state.text}
             />
           </View>
         }
