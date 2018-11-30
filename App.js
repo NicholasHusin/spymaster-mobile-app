@@ -105,6 +105,36 @@ export default class setting extends Component {
     }
   }
 
+  wordChange(index) {
+    Alert.alert(
+      this.state.words[index],
+      '',
+      [
+        {
+          text: 'Cancel', onPress: () => console.log('Ask me later pressed'), style: 'cancel'
+        },
+        {
+          text: 'Edit', onPress: () => {
+            Alert.alert('Placeholder')
+          }
+        },
+        {
+          text: 'Delete', onPress: () => {
+            modifiedWords = this.state.words.slice()
+            modifiedLabels = this.state.labels.slice()
+
+            modifiedWords.splice(index, 1);
+            modifiedLabels.splice(index, 1);
+            this.setState({
+              words: modifiedWords,
+              labels: modifiedLabels
+            })
+          }
+        },
+      ],
+    )
+  }
+
   render() {
     return (
       <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
@@ -132,6 +162,7 @@ export default class setting extends Component {
             <Text
               key={key}
               onPress={() => { this.state.gameStarted ? this.crossOutWord(key) : this.labelChange(key) }}
+              onLongPress={() => { this.state.gameStarted ? this.crossOutWord(key) : this.wordChange(key) }}
               style={this.state.stillOnBoard[key] ?
                 this.wordBackground(key) : addStrikethrough(this.wordBackground(key))
               }
@@ -139,8 +170,6 @@ export default class setting extends Component {
               {/* Extra space to make strikethrough look better */}
             </Text>)
           )}
-          <View style={{ height: 10 }} />
-          {/* This adds padding to the bottom of the list */}
         </ScrollView>
 
         {/* Text Input Field, this is a javascript hack for conditional display */}
