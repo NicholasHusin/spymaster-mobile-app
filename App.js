@@ -173,6 +173,9 @@ export default class setting extends Component {
               {/* Extra space to make strikethrough look better */}
             </Text>)
           )}
+
+          {/* Padding to the bottom of the list */}
+          <View style={{padding: 5}}/>
         </ScrollView>
 
         {/* Text Input Field, this is a javascript hack for conditional display */}
