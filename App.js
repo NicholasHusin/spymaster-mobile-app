@@ -122,12 +122,15 @@ export default class setting extends Component {
           text: 'Delete', onPress: () => {
             modifiedWords = this.state.words.slice()
             modifiedLabels = this.state.labels.slice()
+            modifiedOnBoard = this.state.stillOnBoard.slice()
 
-            modifiedWords.splice(index, 1);
-            modifiedLabels.splice(index, 1);
+            modifiedWords.splice(index, 1)
+            modifiedLabels.splice(index, 1)
+            modifiedOnBoard.splice(index, 1)
             this.setState({
               words: modifiedWords,
-              labels: modifiedLabels
+              labels: modifiedLabels,
+              stillOnBoard: modifiedOnBoard,
             })
           }
         },
