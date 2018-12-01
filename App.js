@@ -6,19 +6,21 @@ import {
 import { KeyboardAvoidingView } from 'react-native';
 import { addStrikethrough, styles } from './styles.js';
 import connect from './apiConnection.js';
+import placeholderWordObjects from './placeholder.js';
 
 export default class setting extends Component {
 
   state = {
     gameStarted: false,
     text: '',
-    words: ['thief', 'nail', 'boot', 'staff', 'root', 'water', 'teacher',
-      'knife', 'suit', 'snowman', 'pupil', 'ham', 'gold', 'death',
-      'dinosaur', 'ground', 'button', 'stream', 'train', 'satellite',
-      'cold', 'capital', 'boom', 'jet', 'face'],
-    labels: ['R', 'B', 'N', 'N', 'B', 'B', 'N', 'R', 'R', 'B', 'R', 'R',
-      'B', 'R', 'B', 'N', 'B', 'N', 'R', 'A', 'R', 'B', 'N', 'N', 'B',],
-    stillOnBoard: Array(25).fill(true)
+    wordObjectList: placeholderWordObjects,
+    // words: ['thief', 'nail', 'boot', 'staff', 'root', 'water', 'teacher',
+    //   'knife', 'suit', 'snowman', 'pupil', 'ham', 'gold', 'death',
+    //   'dinosaur', 'ground', 'button', 'stream', 'train', 'satellite',
+    //   'cold', 'capital', 'boom', 'jet', 'face'],
+    // labels: ['R', 'B', 'N', 'N', 'B', 'B', 'N', 'R', 'R', 'B', 'R', 'R',
+    //   'B', 'R', 'B', 'N', 'B', 'N', 'R', 'A', 'R', 'B', 'N', 'N', 'B',],
+    // stillOnBoard: Array(25).fill(true)
   }
 
   add = () => {
@@ -91,16 +93,17 @@ export default class setting extends Component {
   }
 
   wordBackground(index) {
-    if (this.state.labels[index] === "B") {
+    const label = this.state.wordObjectList[index].label
+    if (label === "B") {
       return styles.Blue;
     }
-    if (this.state.labels[index] === "R") {
+    if (label === "R") {
       return styles.Red;
     }
-    if (this.state.labels[index] === "A") {
+    if (label === "A") {
       return styles.Assassin;
     }
-    if (this.state.labels[index] === "N") {
+    if (label === "N") {
       return styles.Neutral;
     }
   }
@@ -161,15 +164,15 @@ export default class setting extends Component {
           onContentSizeChange={(contentWidth, contentHeight) => {
             this.scrollView.scrollToEnd({ animated: true });
           }}>
-          {this.state.words.map((item, key) => (
+          {this.state.wordObjectList.map((item, key) => (
             <Text
               key={key}
               onPress={() => { this.state.gameStarted ? this.crossOutWord(key) : this.labelChange(key) }}
               onLongPress={() => { this.state.gameStarted ? this.crossOutWord(key) : this.wordChange(key) }}
-              style={this.state.stillOnBoard[key] ?
+              style={this.state.wordObjectList[key].stillOnBoard ?
                 this.wordBackground(key) : addStrikethrough(this.wordBackground(key))
               }
-            > {(key + 1) + ". " + item + " "}
+            > {(key + 1) + ". " + item.word + " "}
               {/* Extra space to make strikethrough look better */}
             </Text>)
           )}
