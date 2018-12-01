@@ -14,22 +14,18 @@ export default class setting extends Component {
     gameStarted: false,
     text: '',
     wordObjectList: placeholderWordObjects,
-    // words: ['thief', 'nail', 'boot', 'staff', 'root', 'water', 'teacher',
-    //   'knife', 'suit', 'snowman', 'pupil', 'ham', 'gold', 'death',
-    //   'dinosaur', 'ground', 'button', 'stream', 'train', 'satellite',
-    //   'cold', 'capital', 'boom', 'jet', 'face'],
-    // labels: ['R', 'B', 'N', 'N', 'B', 'B', 'N', 'R', 'R', 'B', 'R', 'R',
-    //   'B', 'R', 'B', 'N', 'B', 'N', 'R', 'A', 'R', 'B', 'N', 'N', 'B',],
-    // stillOnBoard: Array(25).fill(true)
   }
 
   add = () => {
     if (this.state.text !== '') {
+      newWordObject = {
+        word: this.state.text,
+        label: 'N',
+        stillOnBoard: true,
+      }
       this.setState((prevState) => ({
         text: '',
-        words: prevState.words.concat([prevState.text]),
-        labels: prevState.labels.concat(['N']),
-        stillOnBoard: prevState.stillOnBoard.concat(true),
+        wordObjectList: prevState.wordObjectList.concat([newWordObject])
       }))
     }
   }
@@ -44,31 +40,26 @@ export default class setting extends Component {
     this.setState({
       gameStarted: false,
       text: '',
-      words: [],
-      labels: [],
-      stillOnBoard: [],
+      wordObjectList: []
     })
   }
 
   hint = () => {
-    console.log(JSON.stringify(this.state.words))
-    console.log(JSON.stringify(this.state.labels))
     Alert.alert(
       'Which team do you want to generate a clue for?',
       '',
       [
         {
-          text: 'Cancel', onPress: () => console.log('Ask me later pressed'), style: 'cancel'
+          text: 'Cancel',
+          onPress: () => console.log('Ask me later pressed'), style: 'cancel'
         },
         {
-          text: 'Blue Team', onPress: () => {
-            connect(this.state.words, this.state.labels, "blue")
-          }
+          text: 'Blue Team',
+          onPress: () => connect(this.state.wordObjectList, "blue")
         },
         {
-          text: 'Red Team', onPress: () => {
-            connect(this.state.words, this.state.labels, "red")
-          }
+          text: 'Red Team',
+          onPress: () => connect(this.state.wordObjectList, "red")
         },
       ],
       { cancelable: false }
@@ -77,18 +68,18 @@ export default class setting extends Component {
 
   labelChange(index) {
     const labelList = ['N', 'B', 'R', 'A']
-    modified = this.state.labels.slice()
-    modified[index] = labelList[(labelList.indexOf(modified[index]) + 1) % 4]
+    modified = this.state.wordObjectList.slice()
+    modified[index].label = labelList[(labelList.indexOf(modified[index].label) + 1) % 4]
     this.setState({
-      labels: modified
+      wordObjectList: modified
     })
   }
 
   crossOutWord(index) {
-    modified = this.state.stillOnBoard.slice()
-    modified[index] = !modified[index]
+    modified = this.state.wordObjectList.slice()
+    modified[index].stillOnBoard = !modified[index].stillOnBoard
     this.setState({
-      stillOnBoard: modified
+      wordObjectList: modified
     })
   }
 
@@ -110,7 +101,7 @@ export default class setting extends Component {
 
   wordChange(index) {
     Alert.alert(
-      this.state.words[index],
+      this.state.wordObjectList[index].word,
       '',
       [
         {
@@ -123,17 +114,10 @@ export default class setting extends Component {
         },
         {
           text: 'Delete', onPress: () => {
-            modifiedWords = this.state.words.slice()
-            modifiedLabels = this.state.labels.slice()
-            modifiedOnBoard = this.state.stillOnBoard.slice()
-
-            modifiedWords.splice(index, 1)
-            modifiedLabels.splice(index, 1)
-            modifiedOnBoard.splice(index, 1)
+            modified = this.state.wordObjectList.slice()
+            modified.splice(index, 1)
             this.setState({
-              words: modifiedWords,
-              labels: modifiedLabels,
-              stillOnBoard: modifiedOnBoard,
+              wordObjectList: modified
             })
           }
         },
@@ -162,7 +146,7 @@ export default class setting extends Component {
             <Text
               key={key}
               onPress={() => { this.state.gameStarted ? this.crossOutWord(key) : this.labelChange(key) }}
-              onLongPress={() => { this.state.gameStarted ? this.crossOutWord(key) : this.wordChange(key) }}
+              onLongPress={() => { if (!this.state.gameStarted) this.wordChange(key) }}
               style={this.state.wordObjectList[key].stillOnBoard ?
                 this.wordBackground(key) : addStrikethrough(this.wordBackground(key))
               }
@@ -172,7 +156,7 @@ export default class setting extends Component {
           )}
 
           {/* Padding to the bottom of the list */}
-          <View style={{padding: 3}}/>
+          <View style={{ padding: 3 }} />
         </ScrollView>
 
         {/* Text Input Field, this is a javascript hack for conditional display */}
@@ -181,13 +165,13 @@ export default class setting extends Component {
             <TextInput
               style={{ color: 'white' }}
               placeholder="Type Your Word Here!"
-              onChangeText={(text) => this.setState({text})}
+              onChangeText={(text) => this.setState({ text })}
               value={this.state.text}
             />
           </View>
         }
 
-        {/* Button */}
+        {/* Two Buttons */}
         <View style={styles.ButtonParentContainer}>
           <View style={styles.buttonContainer}>
             <Button
@@ -204,9 +188,7 @@ export default class setting extends Component {
               onPress={this.state.gameStarted ? this.endGame : this.startGame}
             />
           </View>
-
         </View>
-
       </KeyboardAvoidingView>
     );
   }
