@@ -51,7 +51,7 @@ export const styles = StyleSheet.create({
 
     TextFieldContainer: {
         height: 40,
-        flexDirection: 'column',
+        flexDirection: 'row',
         backgroundColor: '#393D46',
         paddingLeft: 10,
         paddingTop: 10,

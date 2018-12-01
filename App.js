@@ -3,10 +3,11 @@ import {
   Alert, Button, View, Text,
   TextInput, Image, ScrollView
 } from 'react-native';
-import { KeyboardAvoidingView } from 'react-native';
+import { KeyboardAvoidingView, TouchableHighlight } from 'react-native';
 import { addStrikethrough, styles } from './styles.js';
 import connect from './apiConnection.js';
 import placeholderWordObjects from './placeholder.js';
+
 
 export default class setting extends Component {
 
@@ -162,14 +163,24 @@ export default class setting extends Component {
         {/* Text Input Field, this is a javascript hack for conditional display */}
         {!this.state.gameStarted &&
           <View style={styles.TextFieldContainer}>
+
+            <TouchableHighlight style={{marginRight: 10}} onPress={() => this.moveToAddNewCustomer()}>
+              <Text>Camera Button Placeholder</Text>
+            </TouchableHighlight>
             <TextInput
-              style={{ color: 'white' }}
+              style={{ color: 'white'}}
               placeholder="Type Your Word Here!"
               onChangeText={(text) => this.setState({ text })}
               value={this.state.text}
             />
+            
+            
           </View>
+          
+          
         }
+
+        
 
         {/* Two Buttons */}
         <View style={styles.ButtonParentContainer}>
