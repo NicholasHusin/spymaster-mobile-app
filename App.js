@@ -146,20 +146,14 @@ export default class setting extends Component {
       <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
 
         {/* Title Bar */}
-        <View style={{
-          height: 60, flexDirection: 'row',
-          justifyContent: 'center', backgroundColor: '#393D46'
-        }}>
-          <Text style={{
-            textAlignVertical: 'bottom', fontSize: 20, color: 'white',
-            fontWeight: 'bold', fontFamily: 'monospace', paddingBottom: 5
-          }}>
+        <View style={styles.TitleBar}>
+          <Text style={styles.TitleText}>
             SpyMaster
           </Text>
         </View>
 
         {/* List of inputted words */}
-        <ScrollView style={{ flex: 1, flexDirection: 'column', backgroundColor: 'white' }}
+        <ScrollView style={styles.WordListContainer}
           ref={ref => this.scrollView = ref}
           onContentSizeChange={(contentWidth, contentHeight) => {
             this.scrollView.scrollToEnd({ animated: true });
@@ -176,14 +170,14 @@ export default class setting extends Component {
               {/* Extra space to make strikethrough look better */}
             </Text>)
           )}
+
+          {/* Padding to the bottom of the list */}
+          <View style={{padding: 3}}/>
         </ScrollView>
 
         {/* Text Input Field, this is a javascript hack for conditional display */}
         {!this.state.gameStarted &&
-          <View style={{
-            height: 40, flexDirection: 'column',
-            backgroundColor: '#393D46', paddingLeft: 10, paddingTop: 10
-          }}>
+          <View style={styles.TextFieldContainer}>
             <TextInput
               style={{ color: 'white' }}
               placeholder="Type Your Word Here!"
@@ -194,10 +188,7 @@ export default class setting extends Component {
         }
 
         {/* Button */}
-        <View style={{
-          height: 55, flexDirection: 'row', paddingTop: 10, paddingBottom: 10,
-          justifyContent: 'center', backgroundColor: '#393D46'
-        }}>
+        <View style={styles.ButtonParentContainer}>
           <View style={styles.buttonContainer}>
             <Button
               title={this.state.gameStarted ? 'Get Hint' : 'Add Word'}

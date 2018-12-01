@@ -7,6 +7,37 @@ export function addStrikethrough(style) {
 }
 
 export const styles = StyleSheet.create({
+    WordListContainer: {
+        flex: 1, 
+        flexDirection: 'column', 
+        backgroundColor: 'white',
+    },
+
+    TitleBar: {
+        height: 60,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        backgroundColor: '#393D46',
+    },
+
+    TitleText: {
+        textAlignVertical: 'bottom',
+        fontSize: 20,
+        color: 'white',
+        fontWeight: 'bold',
+        fontFamily: 'monospace',
+        paddingBottom: 5,
+    },
+
+    ButtonParentContainer: {
+        height: 55,
+        flexDirection: 'row',
+        paddingTop: 10,
+        paddingBottom: 10,
+        justifyContent: 'center',
+        backgroundColor: '#393D46',
+    },
+
     buttonContainer: {
         flex: 1,
         marginLeft: 10,
@@ -16,6 +47,14 @@ export const styles = StyleSheet.create({
     MainContainer: {
         flex: 1,
         margin: 10
+    },
+
+    TextFieldContainer: {
+        height: 40,
+        flexDirection: 'column',
+        backgroundColor: '#393D46',
+        paddingLeft: 10,
+        paddingTop: 10,
     },
 
     Blue: {
