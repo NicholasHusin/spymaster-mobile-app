@@ -7,6 +7,7 @@ import { KeyboardAvoidingView, TouchableHighlight } from 'react-native';
 import { addStrikethrough, styles } from './styles.js';
 import connect from './apiConnection.js';
 import placeholderWordObjects from './placeholder.js';
+import { Icon } from 'react-native-elements';
 
 
 export default class setting extends Component {
@@ -126,6 +127,10 @@ export default class setting extends Component {
     )
   }
 
+  cameraAPI() {
+    Alert.alert('Camera API Placeholder')
+  }
+
   render() {
     return (
       <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
@@ -164,8 +169,8 @@ export default class setting extends Component {
         {!this.state.gameStarted &&
           <View style={styles.TextFieldContainer}>
 
-            <TouchableHighlight style={{marginRight: 10}} onPress={() => this.moveToAddNewCustomer()}>
-              <Text>Camera Button Placeholder</Text>
+            <TouchableHighlight underlayColor= '#393D46' style={{marginRight: 10, justifyContent: 'center', alignItems: 'center'}} onPress={() => this.cameraAPI()}>
+              <Icon name='photo-camera' color='white' />
             </TouchableHighlight>
             <TextInput
               style={{ color: 'white'}}
