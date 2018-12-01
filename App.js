@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
-  Alert, AppRegistry, Button, View, StyleSheet, Text,
-  TextInput, Image, ImageBackground, ScrollView
+  Alert, Button, View, Text,
+  TextInput, Image, ScrollView
 } from 'react-native';
 import { KeyboardAvoidingView } from 'react-native';
 import { addStrikethrough, styles } from './styles.js';
