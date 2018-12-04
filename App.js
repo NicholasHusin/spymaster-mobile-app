@@ -32,6 +32,21 @@ export default class setting extends Component {
     }
   }
 
+  imageAdd(word) {
+    console.log(word)
+    if (word !== '') {
+      newWordObject = {
+        word: word,
+        label: 'N',
+        stillOnBoard: true,
+      }
+      this.setState((prevState) => ({
+        text: '',
+        wordObjectList: prevState.wordObjectList.concat([newWordObject])
+      }))
+    }
+  }
+
   startGame = () => {
     this.setState({
       gameStarted: true
@@ -128,7 +143,19 @@ export default class setting extends Component {
   }
 
   cameraAPI() {
-    Alert.alert('Camera API Placeholder')
+    fetch('http://10.194.154.49:5000/example.png').then((response) => response.json()).then((responseJSON) => {
+        Alert.alert('',
+            JSON.stringify(responseJSON),
+            // responseJSON.clue + " (Rating: " + responseJSON.rating.toFixed(2) + ")",
+            // "This clue hints at:\n" + responseJSON.wordsHintedAt.join('\n')
+        )
+        
+        var wordArr = responseJSON;
+
+        for(var i = 0; i < wordArr.length; i++) {
+          this.imageAdd(wordArr[i])
+      }
+    })
   }
 
   render() {
