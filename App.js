@@ -4,10 +4,11 @@ import {
   TextInput, Image, ScrollView
 } from 'react-native';
 import { KeyboardAvoidingView, TouchableHighlight } from 'react-native';
-import { addStrikethrough, styles } from './styles.js';
-import connect from './apiConnection.js';
+import { styles } from './styles.js';
+import connect from './clueAPI.js';
 import placeholderWordObjects from './placeholder.js';
 import { Icon } from 'react-native-elements';
+import { ImagePicker } from 'expo';
 
 
 export default class setting extends Component {
@@ -18,7 +19,7 @@ export default class setting extends Component {
     wordObjectList: placeholderWordObjects,
   }
 
-  add = () => {
+  addWord = () => {
     if (this.state.text !== '') {
       newWordObject = {
         word: this.state.text,
@@ -61,6 +62,7 @@ export default class setting extends Component {
     })
   }
 
+  // Turn this into modal to look nicer?
   hint = () => {
     Alert.alert(
       'Which team do you want to generate a clue for?',
@@ -116,10 +118,11 @@ export default class setting extends Component {
     }
   }
 
+  // Change this to modal?
   wordChange(index) {
     Alert.alert(
+      'Edit/delete this word?',
       this.state.wordObjectList[index].word,
-      '',
       [
         {
           text: 'Cancel', onPress: () => console.log('Ask me later pressed'), style: 'cancel'
@@ -143,20 +146,32 @@ export default class setting extends Component {
   }
 
   cameraAPI() {
-    fetch('http://10.194.154.49:5000/example.png').then((response) => response.json()).then((responseJSON) => {
+    fetch('http://10.194.154.49:5000/example.png')
+      .then((response) => response.json()).then((responseJSON) => {
         Alert.alert('',
-            JSON.stringify(responseJSON),
-            // responseJSON.clue + " (Rating: " + responseJSON.rating.toFixed(2) + ")",
-            // "This clue hints at:\n" + responseJSON.wordsHintedAt.join('\n')
+          JSON.stringify(responseJSON),
+          // responseJSON.clue + " (Rating: " + responseJSON.rating.toFixed(2) + ")",
+          // "This clue hints at:\n" + responseJSON.wordsHintedAt.join('\n')
         )
-        
+
         var wordArr = responseJSON;
 
-        for(var i = 0; i < wordArr.length; i++) {
+        for (var i = 0; i < wordArr.length; i++) {
           this.imageAdd(wordArr[i])
-      }
-    })
+        }
+      })
   }
+
+  _pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: false,
+      base64: true,
+    });
+
+    if (!result.cancelled) {
+      this.setState({ imageBase64: result.base64 });
+    }
+  };
 
   render() {
     return (
@@ -181,7 +196,8 @@ export default class setting extends Component {
               onPress={() => { this.state.gameStarted ? this.crossOutWord(key) : this.labelChange(key) }}
               onLongPress={() => { if (!this.state.gameStarted) this.wordChange(key) }}
               style={this.state.wordObjectList[key].stillOnBoard ?
-                this.wordBackground(key) : addStrikethrough(this.wordBackground(key))
+                this.wordBackground(key) :
+                [this.wordBackground(key), { textDecorationLine: 'line-through' }]
               }
             > {(key + 1) + ". " + item.word + " "}
               {/* Extra space to make strikethrough look better */}
@@ -196,23 +212,27 @@ export default class setting extends Component {
         {!this.state.gameStarted &&
           <View style={styles.TextFieldContainer}>
 
-            <TouchableHighlight underlayColor= '#393D46' style={{marginRight: 10, justifyContent: 'center', alignItems: 'center'}} onPress={() => this.cameraAPI()}>
+            <TouchableHighlight
+              underlayColor='#393D46'
+              style={{ marginRight: 10, justifyContent: 'center', alignItems: 'center' }}
+              onPress={() => this._pickImage()}
+            >
               <Icon name='photo-camera' color='white' />
             </TouchableHighlight>
             <TextInput
-              style={{ color: 'white'}}
+              style={{ color: 'white' }}
               placeholder="Type Your Word Here!"
               onChangeText={(text) => this.setState({ text })}
               value={this.state.text}
             />
-            
-            
+
+
           </View>
-          
-          
+
+
         }
 
-        
+
 
         {/* Two Buttons */}
         <View style={styles.ButtonParentContainer}>
@@ -220,7 +240,7 @@ export default class setting extends Component {
             <Button
               title={this.state.gameStarted ? 'Get Hint' : 'Add Word'}
               color='#585858'
-              onPress={this.state.gameStarted ? this.hint : this.add}
+              onPress={this.state.gameStarted ? this.hint : this.addWord}
             />
           </View>
 
