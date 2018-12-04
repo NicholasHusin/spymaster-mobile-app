@@ -9,6 +9,7 @@ import connect from './clueAPI.js';
 import placeholderWordObjects from './placeholder.js';
 import { Icon } from 'react-native-elements';
 import { ImagePicker } from 'expo';
+import callPhotoAPI from './photoAPI'
 
 
 export default class setting extends Component {
@@ -33,20 +34,20 @@ export default class setting extends Component {
     }
   }
 
-  imageAdd(word) {
-    console.log(word)
-    if (word !== '') {
-      newWordObject = {
-        word: word,
-        label: 'N',
-        stillOnBoard: true,
-      }
-      this.setState((prevState) => ({
-        text: '',
-        wordObjectList: prevState.wordObjectList.concat([newWordObject])
-      }))
-    }
-  }
+  // imageAdd(word) {
+  //   console.log(word)
+  //   if (word !== '') {
+  //     newWordObject = {
+  //       word: word,
+  //       label: 'N',
+  //       stillOnBoard: true,
+  //     }
+  //     this.setState((prevState) => ({
+  //       text: '',
+  //       wordObjectList: prevState.wordObjectList.concat([newWordObject])
+  //     }))
+  //   }
+  // }
 
   startGame = () => {
     this.setState({
@@ -145,22 +146,22 @@ export default class setting extends Component {
     )
   }
 
-  cameraAPI() {
-    fetch('http://10.194.154.49:5000/example.png')
-      .then((response) => response.json()).then((responseJSON) => {
-        Alert.alert('',
-          JSON.stringify(responseJSON),
-          // responseJSON.clue + " (Rating: " + responseJSON.rating.toFixed(2) + ")",
-          // "This clue hints at:\n" + responseJSON.wordsHintedAt.join('\n')
-        )
+  // cameraAPI() {
+  //   fetch('http://10.194.154.49:5000/')
+  //     .then((response) => response.json()).then((responseJSON) => {
+  //       Alert.alert('',
+  //         JSON.stringify(responseJSON),
+  //         // responseJSON.clue + " (Rating: " + responseJSON.rating.toFixed(2) + ")",
+  //         // "This clue hints at:\n" + responseJSON.wordsHintedAt.join('\n')
+  //       )
 
-        var wordArr = responseJSON;
+  //       var wordArr = responseJSON;
 
-        for (var i = 0; i < wordArr.length; i++) {
-          this.imageAdd(wordArr[i])
-        }
-      })
-  }
+  //       for (var i = 0; i < wordArr.length; i++) {
+  //         this.imageAdd(wordArr[i])
+  //       }
+  //     })
+  // }
 
   _pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -168,9 +169,24 @@ export default class setting extends Component {
       base64: true,
     });
 
-    if (!result.cancelled) {
-      this.setState({ imageBase64: result.base64 });
+    if (result.cancelled) {
+      return
     }
+
+    let imageBase64 = result.base64
+    let wordList = await callPhotoAPI(imageBase64)
+    
+    wordObjectList = wordList.map((word) => {
+      return {
+        word: word,
+        label: 'N',
+        stillOnBoard: true,
+      }
+    })
+    
+    this.setState({
+      wordObjectList
+    })
   };
 
   render() {
