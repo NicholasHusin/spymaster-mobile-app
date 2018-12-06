@@ -6,9 +6,5 @@ export default function connect(imageBase64) {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({ imageBase64 }),
-    })
-        .then((response) => response.json())
-        .catch((err) => {
-            console.log(err)
-        })
+    }).then((response) => response.json())
 }

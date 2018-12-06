@@ -14,14 +14,16 @@ export const styles = StyleSheet.create({
     },
 
     TitleBar: {
-        height: 60,
-        flexDirection: 'row',
-        justifyContent: 'center',
+        height: 40,
+        // flexDirection: 'row',
+        // justifyContent: 'center',
         backgroundColor: '#393D46',
     },
 
     TitleText: {
-        textAlignVertical: 'bottom',
+        // textAlignVertical: 'bottom',
+        // textAlign: 'center',
+        // flex: 1,
         fontSize: 20,
         color: 'white',
         fontWeight: 'bold',
