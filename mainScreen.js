@@ -76,18 +76,19 @@ export default class setting extends Component {
 
   labelChange(index) {
     const labelList = ['N', 'B', 'R', 'A']
-    modified = this.state.wordObjectList.slice()
-    modified[index].label = labelList[(labelList.indexOf(modified[index].label) + 1) % 4]
-    this.setState({
-      wordObjectList: modified
+    this.setState((prevState) => {
+      let wordObjectList = prevState.wordObjectList
+      const newLabel = labelList[(labelList.indexOf(wordObjectList[index].label) + 1) % 4]
+      wordObjectList[index].label = newLabel
+      return { wordObjectList }
     })
   }
 
   crossOutWord(index) {
-    modified = this.state.wordObjectList.slice()
-    modified[index].stillOnBoard = !modified[index].stillOnBoard
-    this.setState({
-      wordObjectList: modified
+    this.setState((prevState) => {
+      let wordObjectList = prevState.wordObjectList
+      wordObjectList[index].stillOnBoard = !wordObjectList[index].stillOnBoard
+      return { wordObjectList }
     })
   }
 
@@ -123,10 +124,10 @@ export default class setting extends Component {
         },
         {
           text: 'Delete', onPress: () => {
-            modified = this.state.wordObjectList.slice()
-            modified.splice(index, 1)
-            this.setState({
-              wordObjectList: modified
+            this.setState((prevState) => {
+              let wordObjectList = prevState.wordObjectList
+              wordObjectList.splice(index, 1)
+              return { wordObjectList }
             })
           }
         },
