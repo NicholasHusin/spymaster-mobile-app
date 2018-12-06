@@ -85,6 +85,9 @@ export default class setting extends Component {
   }
 
   crossOutWord(index) {
+    if (this.state.wordObjectList[index].label === 'A') {
+      return
+    }
     this.setState((prevState) => {
       let wordObjectList = prevState.wordObjectList
       wordObjectList[index].stillOnBoard = !wordObjectList[index].stillOnBoard
