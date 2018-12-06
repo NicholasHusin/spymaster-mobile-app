@@ -23,7 +23,7 @@ export default class setting extends Component {
   addWord = () => {
     if (this.state.text !== '') {
       newWordObject = {
-        word: this.state.text,
+        word: this.state.text.toLowerCase(),
         label: 'N',
         stillOnBoard: true,
       }
@@ -155,7 +155,7 @@ export default class setting extends Component {
 
       wordObjectList = wordList.map((word) => {
         return {
-          word: word,
+          word: word.toLowerCase(),
           label: 'N',
           stillOnBoard: true,
         }
@@ -181,7 +181,7 @@ export default class setting extends Component {
     }
 
     return (
-      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
+      <KeyboardAvoidingView keyboardVerticalOffset={60} style={{ flex: 1 }} behavior="padding" enabled>
 
         {/* Title Bar */}
         {/* <View style={styles.TitleBar}>
@@ -237,8 +237,6 @@ export default class setting extends Component {
 
 
         }
-
-
 
         {/* Two Buttons */}
         <View style={styles.ButtonParentContainer}>
