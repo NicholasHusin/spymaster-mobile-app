@@ -121,5 +121,26 @@ export const styles = StyleSheet.create({
         marginTop: 7,
         marginRight: 15,
         marginLeft: 15
+    },
+
+    clueView: {
+        
+        backgroundColor: '#cdb79e',
+        borderRadius: 10,
+        borderColor: '#393D46',
+        borderWidth: 1,
+        padding: 3,
+        marginTop: 7,
+        marginRight: 15,
+        marginLeft: 15,
+        flexDirection: 'row'
+    },
+
+    clueText: {
+        fontFamily: 'monospace',
+        fontSize: 18,
+        fontWeight: 'bold',
+        textAlign: 'left',
+        color: 'white',
     }
 });
