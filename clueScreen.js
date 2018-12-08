@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ActivityIndicator, Alert, ScrollView } from 'react-native';
+import { Text, View, ActivityIndicator, Alert, ScrollView, TouchableHighlight } from 'react-native';
 import callClueAPI from './clueAPI'
 import { styles } from './styles'
 
@@ -16,8 +16,11 @@ export default class HelloWorldApp extends Component {
         this.props.navigation.getParam('wordObjectList', []),
         this.props.navigation.getParam('team', '')
       )
-      this.setState({clueObjectList})
-      console.log(this.state)
+      if ('err' in clueObjectList) {
+        Alert.alert(clueObjectList.err)
+      } else {
+        this.setState({ clueObjectList })
+      }
     } catch (err) {
       console.log('in here')
       Alert.alert('Server Request Failed')
@@ -40,18 +43,28 @@ export default class HelloWorldApp extends Component {
         {
           this.state.clueObjectList.map((clueObject, index) => {
             return (
-              <View style={styles.clueView} key={index}>
-                <View flex={0.8}>
-                  <Text style={styles.clueText}>
-                    {clueObject.clue}
-                  </Text>
+              <TouchableHighlight
+                key={index}
+                underlayColor='white'
+                onPress={() => {
+                  Alert.alert(
+                    '"' + clueObject.clue + '" hints at:',
+                    clueObject.wordsHintedAt.join('\n')
+                  )
+                }}>
+                <View style={styles.clueView}>
+                  <View flex={0.8} justifyContent='center'>
+                    <Text style={styles.clueText}>
+                      {clueObject.clue}
+                    </Text>
+                  </View>
+                  <View flex={0.2} style={{ alignItems: 'flex-end', justifyContent: 'center' }}>
+                    <Text style={[styles.clueText, { color: '#ede79a', fontSize: 27 }]}>
+                      {clueObject.wordsHintedAt.length}
+                    </Text>
+                  </View>
                 </View>
-                <View flex={0.2} style={{ alignItems: 'flex-end', justifyContent: 'center' }}>
-                  <Text style={[styles.clueText, ]}>
-                    {clueObject.wordsHintedAt.length}
-                  </Text>
-                </View>
-              </View>
+              </TouchableHighlight>
             )
           })
         }

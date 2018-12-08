@@ -3,7 +3,7 @@ import {
   Alert, Button, View, Text,
   TextInput, Image, ScrollView, ActivityIndicator
 } from 'react-native';
-import { KeyboardAvoidingView, TouchableHighlight } from 'react-native';
+import { KeyboardAvoidingView, TouchableHighlight, Keyboard } from 'react-native';
 import { styles } from './styles.js';
 import connect from './clueAPI.js';
 import placeholderWordObjects from './placeholder.js';
@@ -12,6 +12,18 @@ import { ImagePicker } from 'expo';
 import callPhotoAPI from './photoAPI'
 
 export default class setting extends Component {
+
+  static navigationOptions = ({ navigation }) => {
+    return ({
+      headerLeft:
+        <TouchableHighlight
+          style={{ marginLeft: 15, justifyContent: 'center', alignItems: 'center', borderRadius: 100 }}
+          onPress={() => navigation.setParams({ endGame: true })}
+        >
+          <Icon name='close' color='white' />
+        </TouchableHighlight>
+    })
+  }
 
   state = {
     gameStarted: false,
@@ -37,6 +49,12 @@ export default class setting extends Component {
   startGame = () => {
     this.setState({
       gameStarted: true
+    })
+  }
+
+  modifyButton = () => {
+    this.setState({
+      gameStarted: false
     })
   }
 
@@ -140,13 +158,10 @@ export default class setting extends Component {
 
   getWordsFromImage = async () => {
     try {
-      console.log('hi number 1')
       let result = await ImagePicker.launchImageLibraryAsync({
         allowsEditing: false,
         base64: true,
       });
-      console.log('hi bunny')
-
       if (result.cancelled) {
         return
       }
@@ -174,6 +189,14 @@ export default class setting extends Component {
     }
   };
 
+  componentDidUpdate() {
+    if (this.props.navigation.getParam('endGame', false)) {
+      Keyboard.dismiss()
+      this.endGame()
+      this.props.navigation.setParams({ endGame: false })
+    }
+  }
+
   render() {
     if (this.state.loading) {
       return (
@@ -194,7 +217,9 @@ export default class setting extends Component {
         </View> */}
 
         {/* List of inputted words */}
-        <ScrollView style={styles.WordListContainer}
+        <ScrollView
+          keyboardShouldPersistTaps='handled'
+          style={styles.WordListContainer}
           ref={ref => this.scrollView = ref}
           onContentSizeChange={(contentWidth, contentHeight) => {
             this.scrollView.scrollToEnd({ animated: true });
@@ -230,6 +255,7 @@ export default class setting extends Component {
             </TouchableHighlight>
             <TextInput
               style={{ color: 'white' }}
+              flex={1}
               placeholder="Type Your Word Here!"
               onChangeText={(text) => this.setState({ text })}
               value={this.state.text}
@@ -253,9 +279,9 @@ export default class setting extends Component {
 
           <View style={styles.buttonContainer}>
             <Button
-              title={this.state.gameStarted ? 'End Game' : 'Start Game'}
+              title={this.state.gameStarted ? 'Modify Words' : 'Start Game'}
               color='#585858'
-              onPress={this.state.gameStarted ? this.endGame : this.startGame}
+              onPress={this.state.gameStarted ? this.modifyButton : this.startGame}
             />
           </View>
         </View>

@@ -125,11 +125,13 @@ export const styles = StyleSheet.create({
 
     clueView: {
         
-        backgroundColor: '#cdb79e',
+        backgroundColor: '#51dbd2',
         borderRadius: 10,
         borderColor: '#393D46',
         borderWidth: 1,
         padding: 3,
+        paddingLeft: 10,
+        paddingRight: 14,
         marginTop: 7,
         marginRight: 15,
         marginLeft: 15,
