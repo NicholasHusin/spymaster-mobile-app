@@ -125,7 +125,7 @@ export const styles = StyleSheet.create({
 
     clueView: {
         
-        backgroundColor: '#51dbd2',
+        backgroundColor: '#A9A9A9',
         borderRadius: 10,
         borderColor: '#393D46',
         borderWidth: 1,

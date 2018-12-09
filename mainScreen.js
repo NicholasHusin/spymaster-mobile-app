@@ -132,17 +132,12 @@ export default class setting extends Component {
   // Change this to modal? or react-native-dialog
   wordChange(index) {
     Alert.alert(
-      'Edit/delete this word?',
+      'Delete this word?',
       this.state.wordObjectList[index].word,
       [
         {
           text: 'Cancel', onPress: () => console.log('Ask me later pressed'), style: 'cancel'
-        },
-        {
-          text: 'Edit', onPress: () => {
-            Alert.alert('Placeholder')
-          }
-        },
+        },,
         {
           text: 'Delete', onPress: () => {
             this.setState((prevState) => {

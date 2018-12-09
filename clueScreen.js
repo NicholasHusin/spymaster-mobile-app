@@ -33,7 +33,7 @@ export default class HelloWorldApp extends Component {
     if (this.state.loading) {
       return (
         <View style={{ flex: 1, justifyContent: 'center' }}>
-          <ActivityIndicator size="large" color="#0000ff" />
+          <ActivityIndicator size="large" color="#393D46" />
         </View>
       );
     }
@@ -59,7 +59,7 @@ export default class HelloWorldApp extends Component {
                     </Text>
                   </View>
                   <View flex={0.2} style={{ alignItems: 'flex-end', justifyContent: 'center' }}>
-                    <Text style={[styles.clueText, { color: '#ede79a', fontSize: 27 }]}>
+                    <Text style={[styles.clueText, { color: 'white', fontSize: 27 }]}>
                       {clueObject.wordsHintedAt.length}
                     </Text>
                   </View>
