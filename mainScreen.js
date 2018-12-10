@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import {
   Alert, Button, View, Text,
-  TextInput, Image, ScrollView, ActivityIndicator
+  TextInput, ScrollView, ActivityIndicator
 } from 'react-native';
 import { KeyboardAvoidingView, TouchableHighlight, Keyboard } from 'react-native';
 import { styles } from './styles.js';
-import connect from './clueAPI.js';
-import placeholderWordObjects from './placeholder.js';
 import { Icon } from 'react-native-elements';
 import { ImagePicker } from 'expo';
 import callPhotoAPI from './photoAPI'
@@ -28,7 +26,7 @@ export default class setting extends Component {
   state = {
     gameStarted: false,
     text: '',
-    wordObjectList: placeholderWordObjects,
+    wordObjectList: [],
     loading: false,
   }
 

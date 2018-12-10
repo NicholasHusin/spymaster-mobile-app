@@ -1,5 +1,3 @@
-import { Alert } from 'react-native'
-
 export default function connect(wordObjectList, teamName) {
     return fetch('http://10.195.23.233:5000/clue', {
         method: 'POST',
