@@ -9,7 +9,7 @@ import { Icon } from 'react-native-elements';
 import { ImagePicker } from 'expo';
 import callPhotoAPI from './photoAPI'
 
-export default class setting extends Component {
+export default class MainScreen extends Component {
 
   static navigationOptions = ({ navigation }) => {
     return ({

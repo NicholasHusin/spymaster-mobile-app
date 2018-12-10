@@ -3,7 +3,7 @@ import { Text, View, ActivityIndicator, Alert, ScrollView, TouchableHighlight } 
 import callClueAPI from './clueAPI'
 import { styles } from './styles'
 
-export default class HelloWorldApp extends Component {
+export default class ClueScreen extends Component {
 
   state = {
     loading: true,
