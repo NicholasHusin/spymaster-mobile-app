@@ -5,5 +5,12 @@ First, the app asks the user to input all of the words on the game board.
 The words can be inputted either manually (by typing them in), or by taking a picture of the game board and uploading it to the app.
 After the words have been inputted and labeled with the correct colors (red, blue, neutral, or assassin), the app will be able to generate clues that hint at words on the board.
 
-Additionally, the app relies on a web API that we have created.
-The repository for this web API can be found here: https://github.com/jasonxia17/spymaster-backend
+## Backend
+Additionally, the app relies on a web API that we have created. The repository for this web API can be found here: 
+
+https://github.com/jasonxia17/spymaster-backend
+
+## Video
+Here's a video demonstration of the mobile app:
+
+https://www.youtube.com/watch?v=W_veysfJX8Q
