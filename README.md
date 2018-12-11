@@ -1,9 +1,9 @@
 # spymaster-mobile-app
 
-This is a mobile app that can be used to help somebody play the board game Codenames.
-The app works by first asking the user to input the words that are in the game.
-The words can be inputted either manually, by typing it, or by simply taking a photo of the board game.
-After the word has been inputted and labeled accordingly to their respective team colours, the app will be able to generate words that acts as a clue for the words inputted.
+This is a mobile app that can be used by the spymaster in the board game [Codenames](https://en.wikipedia.org/wiki/Codenames_(board_game)).
+First, the app asks the user to input all of the words on the game board.
+The words can be inputted either manually (by typing them in), or by taking a picture of the game board and uploading it to the app.
+After the words have been inputted and labeled with the correct colors (red, blue, neutral, or assassin), the app will be able to generate clues that hint at words on the board.
 
-Additionally, the functionality of this app is also reliant on a web API that we have created.
-The repository for said web API can be found on: https://github.com/jasonxia17/spymaster-backend
+Additionally, the app relies on a web API that we have created.
+The repository for this web API can be found here: https://github.com/jasonxia17/spymaster-backend
