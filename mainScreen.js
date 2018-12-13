@@ -15,10 +15,25 @@ export default class MainScreen extends Component {
     return ({
       headerLeft:
         <TouchableHighlight
-          style={{ marginLeft: 15, justifyContent: 'center', alignItems: 'center', borderRadius: 100 }}
+          style={{
+            marginLeft: 6, justifyContent: 'center', alignItems: 'center', borderRadius: 40,
+            width: 40, height: 40
+          }}
           onPress={() => navigation.setParams({ endGame: true })}
         >
           <Icon name='close' color='white' />
+        </TouchableHighlight>,
+
+      headerRight:
+        <TouchableHighlight
+          style={{
+            marginRight: 10, justifyContent: 'center', alignItems: 'center', borderRadius: 16,
+            width: 60, height: 30, backgroundColor: '#7fb5b5'
+          }}
+          underlayColor='#5a9c9c'
+          onPress={() => console.log(navigation.navigate('IPConfigScreen'))}
+        >
+          <Text>Set IP</Text>
         </TouchableHighlight>
     })
   }
@@ -135,7 +150,7 @@ export default class MainScreen extends Component {
       [
         {
           text: 'Cancel', onPress: () => console.log('Ask me later pressed'), style: 'cancel'
-        },,
+        }, ,
         {
           text: 'Delete', onPress: () => {
             this.setState((prevState) => {

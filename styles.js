@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     },
 
     TitleBar: {
-        height: 40,
+        height: 48,
         // flexDirection: 'row',
         // justifyContent: 'center',
         backgroundColor: '#393D46',
@@ -28,7 +28,7 @@ export const styles = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold',
         fontFamily: 'monospace',
-        paddingBottom: 5,
+        // paddingBottom: 5,
     },
 
     ButtonParentContainer: {

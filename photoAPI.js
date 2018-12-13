@@ -1,5 +1,8 @@
-export default function connect(imageBase64) {
-    return fetch('http://10.195.23.233:5000/photo', {
+import { AsyncStorage } from 'react-native'
+
+export default async function connect(imageBase64) {
+    const ip = await AsyncStorage.getItem('serverIP')
+    return fetch('http://' + ip + ':5000/photo', {
         method: 'POST',
         headers: {
             Accept: 'application/json',
