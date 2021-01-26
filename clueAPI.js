@@ -1,5 +1,8 @@
-export default function connect(wordObjectList, teamName) {
-    return fetch('http://10.195.23.233:5000/clue', {
+import { AsyncStorage } from 'react-native'
+
+export default async function connect(wordObjectList, teamName) {
+    const ip = await AsyncStorage.getItem('serverIP')
+    return fetch('http://' + ip + ':5000/clue', {
         method: 'POST',
         headers: {
             Accept: 'application/json',
